@@ -3,65 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dati Dinamici</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>Foglio Google con Formattazione</title>
 </head>
 <body>
-    <h2>Dati aggiornati dal Foglio Google</h2>
-    <table id="dataTable"></table>
+    <h2>Dati Formattati dal Foglio Google</h2>
+    <div id="tableContainer">Caricamento...</div>
 
     <script>
         async function fetchData() {
-            const url = "https://script.google.com/macros/s/AKfycbzPYuxTEz1_0ZuRXJ1Kc5P-bqDq_Mb8rOGTlrRWfQaNKJkiZCeC9oq-KfxXAEpFLiw_/exec"; // Sostituisci con il tuo URL Apps Script
+            const url = "https://script.google.com/macros/s/AKfycbypMv48Xb08JokCj-XQpM_kRceHbjFtidN11Q9C5X-jm_sYq3MLLN7I85TlSWIaLhkO/exec"; // Incolla qui l'URL dello script Apps Script
             try {
                 const response = await fetch(url);
-                const data = await response.json();
-                displayData(data);
+                const data = await response.text();
+                document.getElementById("tableContainer").innerHTML = data;
             } catch (error) {
-                console.error("Errore nel caricamento dei dati:", error);
+                console.error("Errore nel caricamento:", error);
             }
-        }
-
-        function displayData(data) {
-            const table = document.getElementById("dataTable");
-            table.innerHTML = ""; // Svuota la tabella
-
-            // Creazione dell'intestazione
-            const headers = Object.keys(data[0]);
-            const headerRow = document.createElement("tr");
-            headers.forEach(header => {
-                const th = document.createElement("th");
-                th.textContent = header;
-                headerRow.appendChild(th);
-            });
-            table.appendChild(headerRow);
-
-            // Creazione delle righe di dati
-            data.forEach(row => {
-                const tr = document.createElement("tr");
-                headers.forEach(header => {
-                    const td = document.createElement("td");
-                    td.textContent = row[header];
-                    tr.appendChild(td);
-                });
-                table.appendChild(tr);
-            });
         }
 
         fetchData();
     </script>
+</body>
+</html>
+
 </body>
 </html>
