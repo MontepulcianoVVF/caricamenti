@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dati Dinamici</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dati aggiornati dal Foglio Google</h2>
+    <table id="dataTable"></table>
+
+    <script>
+        async function fetchData() {
+            const url = "URL_DEL_TUO_SCRIPT"; // Sostituisci con il tuo URL Apps Script
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayData(data);
+            } catch (error) {
+                console.error("Errore nel caricamento dei dati:", error);
+            }
+        }
+
+        function displayData(data) {
+            const table = document.getElementById("dataTable");
+            table.innerHTML = ""; // Svuota la tabella
+
+            // Creazione dell'intestazione
+            const headers = Object.keys(data[0]);
+            const headerRow = document.createElement("tr");
+            headers.forEach(header => {
+                const th = document.createElement("th");
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            // Creazione delle righe di dati
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+                headers.forEach(header => {
+                    const td = document.createElement("td");
+                    td.textContent = row[header];
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>
